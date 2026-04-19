@@ -22,6 +22,19 @@
                 {
                     "Text": "South",
                     "Target": "Rachel Carson"
+                },
+                {
+                    "Text": "Grab a coffee",
+                    "Target": "perksCoffe"
+                }
+            ]
+        },
+        "perksCoffe": {
+            "Body": "Perk Coffee — the smell of fresh espresso fills the air. Students huddle over laptops and textbooks.",
+            "Choices": [
+                {
+                    "Text": "Back to Porter",
+                    "Target": "Porter"
                 }
             ]
         },
@@ -48,6 +61,19 @@
                 {
                     "Text": "South",
                     "Target": "Beyond"
+                },
+                {
+                    "Text": "Check out the vista",
+                    "Target": "vistaA"
+                }
+            ]
+        },
+        "vistaA": {
+            "Body": "Vista Point A — a stunning panoramic view of the Pacific Ocean and Monterey Bay stretches out before you.",
+            "Choices": [
+                {
+                    "Text": "Back to Oakes",
+                    "Target": "Oakes"
                 }
             ]
         },

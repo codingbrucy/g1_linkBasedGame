@@ -26,7 +26,7 @@ class Engine {
     gotoScene(sceneClass, data) {
         this.scene = new sceneClass(this);
         this.scene.create(data);
-    }
+    }// this method takes a class name and constructs it. 
 
     addChoice(action, data) {
         let button = this.actionsContainer.appendChild(document.createElement("button"));
@@ -51,7 +51,7 @@ class Engine {
     }
 }
 
-class Scene {
+class Scene {// virtual class, not to be used directly
     constructor(engine) {
         this.engine = engine;
     }
