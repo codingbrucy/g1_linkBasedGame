@@ -1,0 +1,390 @@
+body {
+    max-width: min(640px, 70vw);
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    background: #121a22;
+    color: #e8ecef;
+    min-height: 100vh;
+}
+
+body > h1 + div {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+body > h1 + div::-webkit-scrollbar { width: 6px; }
+body > h1 + div::-webkit-scrollbar-thumb {
+    background: rgba(232, 236, 239, 0.22);
+    border-radius: 3px;
+}
+body > h1 + div::-webkit-scrollbar-track { background: transparent; }
+
+#mini-map {
+    position: fixed;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(340px, 22vw);
+    max-height: 68vh;
+    padding: 1rem 0.85rem 0.85rem;
+    background: rgba(16, 22, 28, 0.78);
+    border: 1px solid rgba(232, 236, 239, 0.14);
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 50;
+    pointer-events: none;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#mini-map .map-title {
+    font-family: Georgia, serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(232, 236, 239, 0.55);
+    text-align: center;
+    margin-bottom: 0.6rem;
+}
+
+#mini-map svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.map-edge {
+    stroke: rgba(232, 236, 239, 0.28);
+    stroke-width: 1;
+    fill: none;
+}
+.map-edge.locked {
+    stroke-dasharray: 2 3;
+    opacity: 0.5;
+}
+
+.map-node {
+    fill: rgba(232, 236, 239, 0.4);
+    stroke: rgba(232, 236, 239, 0.2);
+    stroke-width: 1;
+    transition: fill 0.3s ease, r 0.3s ease;
+}
+
+.map-label {
+    fill: rgba(232, 236, 239, 0.6);
+    font-size: 7.5px;
+    font-family: Georgia, serif;
+    pointer-events: none;
+}
+
+.map-node.current {
+    fill: #e0993f;
+    stroke: #ffd28a;
+    animation: map-pulse 1.5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.map-label.current {
+    fill: #ffd28a;
+    font-weight: bold;
+}
+
+@keyframes map-pulse {
+    0%, 100% {
+        r: 3.5;
+        filter: drop-shadow(0 0 2px rgba(224, 153, 63, 0.4));
+    }
+    50% {
+        r: 5.2;
+        filter: drop-shadow(0 0 8px rgba(224, 153, 63, 0.95));
+    }
+}
+
+@media (max-width: 900px) {
+    #mini-map { display: none; }
+}
+
+button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: #fffdf5;
+    border: 1px solid rgba(255, 253, 245, 0.55);
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-family: Georgia, serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    margin: 0.3rem 0.35rem 0.3rem 0;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+button:not(.locked-choice):hover {
+    border-color: #fffdf5;
+    background: rgba(255, 253, 245, 0.06);
+}
+
+button .walker {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+button:not(.locked-choice):hover .walker {
+    opacity: 1;
+}
+
+button.locked-choice {
+    opacity: 0.35;
+    cursor: not-allowed;
+    color: #999;
+    border-color: rgba(255, 253, 245, 0.2);
+}
+
+button.locked-choice .walker { display: none; }
+
+.scene-divider {
+    display: block;
+    color: #aaa;
+    letter-spacing: 0.15em;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.action-echo {
+    display: flex;
+    align-items: center;
+    background: #2a2a2a;
+    color: #ccc;
+    font-size: 1rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    width: fit-content;
+}
+
+.action-echo .echo-log { display: none; }
+.action-echo.has-log { cursor: help; }
+.action-echo.has-log:hover .echo-action { display: none; }
+.action-echo.has-log:hover .echo-log {
+    display: inline;
+    font-style: italic;
+    color: #ddd;
+}
+
+/* walking stick figure — on hovered choice buttons & the scene-transition trail */
+button:hover .walker,
+.scene-divider svg {
+    animation: walk-bob 0.55s ease-in-out infinite;
+}
+button:hover .walker line:nth-of-type(2),
+.scene-divider svg line:nth-of-type(2) {
+    transform-origin: 7px 8px;
+    animation: arm-a 0.55s ease-in-out infinite;
+}
+button:hover .walker line:nth-of-type(3),
+.scene-divider svg line:nth-of-type(3) {
+    transform-origin: 7px 8px;
+    animation: arm-b 0.55s ease-in-out infinite;
+}
+button:hover .walker line:nth-of-type(4),
+.scene-divider svg line:nth-of-type(4) {
+    transform-origin: 7px 13px;
+    animation: leg-a 0.55s ease-in-out infinite;
+}
+button:hover .walker line:nth-of-type(5),
+.scene-divider svg line:nth-of-type(5) {
+    transform-origin: 7px 13px;
+    animation: leg-b 0.55s ease-in-out infinite;
+}
+
+@keyframes walk-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-1px); }
+}
+@keyframes leg-a {
+    0%, 100% { transform: rotate(-22deg); }
+    50%      { transform: rotate(22deg); }
+}
+@keyframes leg-b {
+    0%, 100% { transform: rotate(22deg); }
+    50%      { transform: rotate(-22deg); }
+}
+@keyframes arm-a {
+    0%, 100% { transform: rotate(18deg); }
+    50%      { transform: rotate(-18deg); }
+}
+@keyframes arm-b {
+    0%, 100% { transform: rotate(-18deg); }
+    50%      { transform: rotate(18deg); }
+}
+
+#backpack-wrap {
+    position: fixed;
+    width: 80px;
+    height: 90px;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    user-select: none;
+    z-index: 100;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+#backpack-wrap * { pointer-events: none; }
+#backpack-wrap.placed { pointer-events: auto; cursor: grab; }
+#backpack-wrap.placed:active { cursor: grabbing; }
+#backpack-wrap.placed * { pointer-events: auto; }
+#backpack-wrap.expanded {
+    transform: scale(0);
+    opacity: 0;
+}
+
+#inventory-panel {
+    position: fixed;
+    background: #3B1A0A;
+    color: #f5e6d3;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    min-width: 360px;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 0.85rem;
+    transform: scale(0);
+    transform-origin: center center;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 99;
+    pointer-events: none;
+}
+#inventory-panel.open {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.inv-hint {
+    display: block;
+    margin-top: 0.75rem;
+    color: #f5e6d3;
+    opacity: 0.6;
+    font-size: 0.75rem;
+    font-style: italic;
+    letter-spacing: 0.03em;
+}
+
+.inv-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+}
+
+#inv-list {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#inv-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    position: relative;
+}
+
+.inv-slot {
+    width: 72px;
+    height: 72px;
+    border: 2px solid #c45a10;
+    border-radius: 6px;
+    background: #E8722A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.inv-slot img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform 0.15s ease;
+}
+
+#inv-list li:hover .inv-slot {
+    transform: scale(1.2);
+    border-color: #fff;
+}
+
+#inv-list li:hover .inv-slot img {
+    transform: scale(1.1);
+}
+
+.inv-slot-name {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+#inv-list li .inv-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    pointer-events: none;
+}
+
+#inv-list li:hover .inv-tooltip {
+    display: block;
+}
+
+.win-toast {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translate(-50%, -1rem);
+    background: linear-gradient(135deg, #2a3d2f 0%, #3a5a40 100%);
+    color: #f5f0d7;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid rgba(255, 215, 140, 0.45);
+    border-radius: 10px;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55),
+                0 0 24px rgba(224, 153, 63, 0.25);
+    opacity: 0;
+    z-index: 200;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    max-width: min(520px, 86vw);
+    text-align: center;
+}
+
+.win-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}

@@ -1,84 +1,141 @@
 {
-    "Title": "Campus Life on the West Side",
-    "Credits": "Created by Adam Smith (amsmith@ucsc.edu).",
+    "Title": "can you find the secret?",
+    "Credits": "Engine Created by Adam Smith (amsmith@ucsc.edu). Game polished by Bruce Ning, special thanks to Sammy the Slug and PvZ for the inspiration.",
     "InitialLocation": "Kresge",
+    "Items": {
+        "key": {
+            "name": "Key",
+            "image": "images/key.png"
+        },
+        "coffeeBean": {
+            "name": "Coffee Bean",
+            "image": "images/Coffee-Bean.webp"
+        }
+    },
     "Locations": {
         "Kresge": {
-            "Body": "This is Kresge College, lots of nice trees.",
+            "Body": "You wake up in your Kresge dorm to the soft drum of rain on redwood. Thursday. The window fogs from the inside, and the forest outside looks a shade greener than it should. On your desk, a damp flyer you picked up last night — most of the letters have bled off, but you can still make out '—cret gard—' and an arrow pointing vaguely south. The trees here breathe quietly, like they know something you don't.",
             "Choices": [
                 {
                     "Text": "South",
-                    "Target": "Porter"
+                    "Target": "Porter",
+                    "descriptive-log": "I pulled up my hood and walked south through the wet redwoods toward Porter."
                 }
             ]
         },
         "Porter": {
-            "Body": "This is Porter College, the trees are nice here too.",
+            "Body": "Porter College — concrete squares slick with rain, a sculpture you've walked past a hundred times that looks different today. A handful of students cross the quad under black umbrellas without speaking to each other. Somewhere a door clicks shut. The air smells like wet eucalyptus and, faintly, espresso drifting from Perk Coffee.",
             "Choices": [
                 {
-                    "Text": "North",
-                    "Target": "Kresge"
+                    "Text": "go back to Kresge (North)",
+                    "Target": "Kresge",
+                    "descriptive-log": "I turned back north, boots squelching, and made for Kresge again."
                 },
                 {
-                    "Text": "South",
-                    "Target": "Rachel Carson"
+                    "Text": "Go south to Rachel Carson",
+                    "Target": "Rachel Carson",
+                    "descriptive-log": "I followed the path south, out of the redwoods and toward the open sky of RCC."
                 },
                 {
-                    "Text": "Grab a coffee",
-                    "Target": "perksCoffe"
+                    "Text": "Go to Perks Coffee Shop",
+                    "Target": "perksCoffee",
+                    "descriptive-log": "I ducked out of the rain and into Perk Coffee to warm my hands."
                 }
             ]
         },
-        "perksCoffe": {
-            "Body": "Perk Coffee — the smell of fresh espresso fills the air. Students huddle over laptops and textbooks.",
+        "perksCoffee": {
+            "Body": "Perk Coffee — warm light, foggy windows, the hiss of a steam wand. A dozen students hunched over laptops and textbooks, none of them looking up. The barista smiles a beat too long. Rain taps the skylight in a rhythm that almost sounds like a word.",
             "Choices": [
                 {
                     "Text": "Back to Porter",
-                    "Target": "Porter"
+                    "Target": "Porter",
+                    "descriptive-log": "I stepped back out into the rain, Porter quad gray and quiet ahead of me."
                 }
             ]
         },
         "Rachel Carson": {
-            "Body": "Rachel Carson College, more sun and fewer trees.",
+            "Body": "Rachel Carson College — more sky here, fewer trees, and the ocean somewhere beyond the clouds. Rain falls at a slant. A garden bed near the path has been freshly turned; someone left a trowel with the handle pointing toward Oakes. You tell yourself they were just gardening.",
             "Choices": [
                 {
                     "Text": "North",
-                    "Target": "Porter"
+                    "Target": "Porter",
+                    "descriptive-log": "I headed back north toward Porter, the rain thinning under the redwoods."
                 },
                 {
                     "Text": "South",
-                    "Target": "Oakes"
+                    "Target": "Oakes",
+                    "descriptive-log": "I kept going south, following the path down toward Oakes."
                 }
             ]
         },
         "Oakes": {
-            "Body": "Oakes College, even the buildings have tree bark on them.",
+            "Body": "Oakes College — the siding looks like bark, the bark looks like siding, and for a second you can't tell which is which. The rain is heavier down here, or maybe the trees are just older. A gate at the edge of the grounds is half-hidden behind ferns; you can see a keyhole rusted the color of old blood. Somewhere off the path, the vista overlook waits.",
             "Choices": [
                 {
                     "Text": "North",
-                    "Target": "Rachel Carson"
+                    "Target": "Rachel Carson",
+                    "descriptive-log": "I climbed back north toward RCC, the grade steeper than I remembered."
                 },
                 {
                     "Text": "South",
-                    "Target": "Beyond"
+                    "Target": "Beyond",
+                    "descriptive-log": "I pressed on south, off the paved paths, into the long wet grass."
                 },
                 {
                     "Text": "Check out the vista",
-                    "Target": "vistaA"
+                    "Target": "vistaA",
+                    "descriptive-log": "I turned off onto the side trail toward the vista overlook."
+                },
+                {
+                    "Text": "Enter the secret garden",
+                    "Target": "secretGarden",
+                    "LockedBy": "key",
+                    "descriptive-log": "I turned the iron key in the rusted lock and the gate swung open without a sound."
                 }
             ]
         },
         "vistaA": {
-            "Body": "Vista Point A — a stunning panoramic view of the Pacific Ocean and Monterey Bay stretches out before you.",
+            "Body": "The overlook. Monterey Bay is a pale smudge under the rain, and the wet grass flattens in long grey waves. Sammy the Slug is standing at the edge of the vista in a soaked mascot costume — plush fur clumped and dripping — and he is holding an iron key in one felt hand. He isn't moving. The eyes of the costume are aimed at you but don't quite track.",
+            "Image": "images/VistaA.jpeg",
+            "KeyItem": "key",
+            "PostPickup": "keyTaken",
             "Choices": [
                 {
                     "Text": "Back to Oakes",
-                    "Target": "Oakes"
+                    "Target": "Oakes",
+                    "descriptive-log": "I backed away from the edge and found the trail to Oakes again."
+                }
+            ]
+        },
+        "keyTaken": {
+            "Body": "You slipped the iron key out of his hand. He let it go easily — a little too easily. Now he's just standing here in the rain, smiling the same smile the costume always smiles. He's chilling. That's all. You tell yourself that's all.",
+            "Image": "images/evil_sammy.jpeg",
+            "Choices": [
+                {
+                    "Text": "Go back to Oakes",
+                    "Target": "Oakes",
+                    "descriptive-log": "I pocketed the key and headed back to Oakes without looking over my shoulder."
                 }
             ]
         },
         "Beyond": {
-            "Body": "Grass, don't forget to check for ticks!"
+            "Body": "The meadow past Oakes. Tall wet grass up to your knees, and a hawk circling in the grey — low, slow, patient. No path. No people. Somewhere behind you a gate clicks shut on its own. Don't forget to check for ticks."
+        },
+        "secretGarden": {
+            "Body": "You used the key to open the garden gate. A hidden garden tucked behind Oakes. Wildflowers in full bloom — poppies, lupine, something you don't recognize — even though it's November and it's been raining all morning. The light in here is warm and low, like late afternoon, though your phone still says 9:47 AM. The rain stops at the edge of the walls. You found it. Whatever it is, you found it.",
+            "Image": "images/secret-garden.jpeg",
+            "Win": true
+        },
+        "awardCoffeeBean": {
+            "Body": "Three coffees deep, your hands shaking and your heart going fast, the barista slides something across the counter without a word: a single, dark, perfectly roasted coffee bean. Good job — you obtained: coffee-bean.",
+            "Image": "images/Coffee-Bean.webp",
+            "Choices": [
+                {
+                    "Text": "Back to Porter",
+                    "Target": "Porter",
+                    "descriptive-log": "I tucked the bean into my pocket and walked back out into Porter quad, grinning."
+                }
+            ]
         }
     }
 }

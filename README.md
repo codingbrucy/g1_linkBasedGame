@@ -1,40 +1,44 @@
-# StoryGraphTool
+# can you find the secret?
 
-An exercise in building data-driven game design
+A short, rainy-Thursday text adventure set on the UCSC campus. Wake up in Kresge, wander down through the colleges in search of a rumored secret garden behind Oakes. Slightly eerie, mostly normal on the surface.
 
-## Activity Instructions
+Built on Adam Smith's StoryGraph engine for CMPM 120.
 
-This activity gets you thinking about how to keep key aspects of your game design in data files (e.g. JSON files) rather than in code files (e.g. JavaScript files). We want to tell a simple choice-based story, but we don't want to have to create a new block of JavaScript for each location in our story world. We might want to have special logic for the start and end of the story, but most of the middle scenes of the story shoudl share the same logic. We'll put everything needed to customize different instances of this middle scene into a file called `myStory.json` and only make a edits to `rules.js`.
+## Play
 
-### Programming
+Start a local web server in the project root and open `index.html`:
 
-Open this project in your favorite text editor and start a local web server. View `index.html` in your browser through the server you started. You should see the title of the story and the first choice, but other aspects of the game should be broken.
+```bash
+python3 -m http.server 8000
+# then visit http://localhost:8000
+```
 
-In your text editor, open `rules.js` and follow the `TODO` comments as a guide to repairing the code.
+## Features
 
-If your repair works, you should be able to play all the way through the end of the story.
+- **Draggable backpack inventory** — the pack follows your cursor on first load, drop it anywhere, then click to open your inventory.
+- **Mini-map** on the left with a pulsating indicator for your current location.
+- **Descriptive action log** — hover a past choice to see what you did.
+- **Locked paths** — the garden gate behind Oakes needs a key. You'll know it when you see it.
+- **Coffee easter egg** — three drinks at Perk Coffee earns you something.
+- **Win condition** — reach the secret garden to trigger the ending card and toast. Wander off to Beyond without it and the story asks whether you ever really found it.
 
-### Authoring
+## Project layout
 
-With the web server running, navigate to the page called `preview.html`. You should see a graphical preview of the story world defined in `myStory.json`. Edit `myStory.json` to define your own interesting world, examining the view of `preview.html` to find problems before returning to play through your story in `index.html`.
+- `index.html` — entry point
+- `engine.js` — StoryGraph engine (author: Adam Smith), extended with inventory UI, mini-map, action-echo log, auto-scroll, and win toast
+- `rules.js` — `Start` / `Location` / `End` scenes + the `PerksBarista` custom scene for the coffee arc
+- `myStory.json` — story data: locations, choices, items, win flag
+- `style.css` — ink-navy theme with ivory choice buttons and a walking stick-figure hover animation
+- `images/` — location art and item icons
 
-## Engine Documentation
+## Credits
 
-Build your story by defining a few subclasses of `Scene` and adding your story data to a JSON file like `myStory.json`. To begin play, call `Engine.load(firstSceneClassName, pathToStoryJson)`.
+**Engine** — Adam Smith (amsmith@ucsc.edu)
+**Game** — Bruce Ning, with special thanks to Sammy the Slug and PvZ for the inspiration.
 
-### Engine:
-#### Methods:
-- `setTitle(title)`: Show a large header and change the title of the webpage.
-- `show(text)`: Append some text to the web page.
-- `addChoice(text, [data])`: Add a button which appears to the player as `text`, supplying an optional `data` argument to customize the effects of this choice. All choice buttons are removed as soon as the player selects one of them.
-- `gotoScene(sceneClass, [data])`: Transition to a new scene by provided class name, supplying an optional `data` argument to customize the scene instance.
+### Image sources
 
-### Scene
-#### Methods:
-- `create([data])`: Called when a scene is first presented to the player. The `data` argument comes from the second parameter to `gotoScene`.
-- `handleChoice([data])`: Called when the player as selected a choice button. The `data` argument comes from the second parameter to `addChoice`.
-
-#### Fields:
-- `engine`: An instance of `Engine`, as documented below:
-- `storyData`: The result of parsing the JSON file at `pathToStoryJson`
-
+- `evil_sammy.jpeg` — https://www.instagram.com/fuckucsc/
+- `VistaA.jpeg` — https://www.pinterest.com/italianmom69/uc-santa-cruz/
+- `Coffee-Bean.webp` — https://www.pinterest.com/italianmom69/uc-santa-cruz/
+- `secret-garden.jpeg` — https://beautifulboundarieslawn.com/10-tips-creating-beautiful-garden/
